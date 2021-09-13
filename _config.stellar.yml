@@ -1,0 +1,27 @@
+sidebar:
+  logo:
+    avatar: '[config.avatar](/about/)' # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
+    title: '[config.title](/)' # you can set html tag like: '[<img no-lazy height="32px" src="xxx"/>](/)'
+  menu:
+    post: '[btn.blog](/)'
+    wiki: '[btn.wiki](/wiki/)'
+    friends: #'[友链](/friends/)'
+    about: '[关于](/about/)'
+  welcome:
+    layout: markdown
+    title: Welcome
+    content:
+      - 欢迎！
+
+article:
+  auto_cover: false
+  auto_excerpt: 0
+
+open_graph:
+  enable: false
+
+footer:
+  social:
+    - title: GitHub
+      icon: '<i class="ri-github-line ri-lg"></i>'
+      url: https://github.com/yozora7
