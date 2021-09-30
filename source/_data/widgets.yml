@@ -1,19 +1,20 @@
-widgets:
-  # default layout in home/wiki/categories/tags/archives pages
-  # Recent update
-  recent:
-    layout: recent
-    rss: # /atom.xml # npm i hexo-generator-feed
-    limit: 5 # Count of posts
-  # TOC (valid only in layout:post/wiki)
-  toc:
-    layout: toc
-    list_number: false
-    min_depth: 2
-    max_depth: 5
-  # welcome
-  welcome:
-    layout: markdown
-    title: Hello!
-    content:
-      - 欢迎！
+# default layout in home/wiki/categories/tags/archives pages
+default_layout: [recent, welcome]
+# recent updates
+recent:
+  layout: recent
+  rss: # /atom.xml # npm i hexo-generator-feed
+  limit: 5 # Count of posts
+# TOC (valid only in layout:post/wiki)
+toc:
+  layout: toc
+  list_number: false
+  min_depth: 2
+  max_depth: 5
+  fallback: recent # use a backup widget when toc does not exist
+welcome:
+  layout: markdown
+  title: Hello world!
+  content:
+    - Hello world!
+    

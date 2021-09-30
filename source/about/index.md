@@ -1,5 +1,5 @@
 ---
-sidebar: [welcome, toc]
+sidebar: [welcome, recent]
 title : About
 ---
 

@@ -4,14 +4,9 @@ sidebar:
     title: '[config.title](/)' # you can set html tag like: '[<img no-lazy height="32px" src="xxx"/>](/)'
   menu:
     post: '[btn.blog](/)'
-    wiki: '[btn.wiki](/wiki/)'
+    wiki: '[btn.wiki](/projects/)'
     friends: #'[友链](/friends/)'
     about: '[关于](/about/)'
-  welcome:
-    layout: markdown
-    title: Welcome
-    content:
-      - 欢迎！
 
 article:
   auto_cover: false
