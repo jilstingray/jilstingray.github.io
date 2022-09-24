@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: yozora
+title: raincandy
 subtitle: ''
 description: ''
 keywords:
-author: yozora7
+author: ame
 language:
   - zh-SC
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://yozora7.github.io/
+url: https://raincandyame.github.io/
 permalink: :year-:month-:day-:title/
 permalink_defaults:
 pretty_urls:
@@ -106,7 +106,7 @@ theme: stellar
 ## Using Git: npm install hexo-deployer-git --save
 deploy:
   type: git
-  repo: https://github.com/yozora7/yozora7.github.io
+  repo: https://github.com/raincandyame/raincandyame.github.io
   branch: main
   message: Blog updates
 
