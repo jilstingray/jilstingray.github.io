@@ -19,15 +19,21 @@ Starburst 提供了一个开箱即用的 Presto 镜像：
 
 {% link 'https://hub.docker.com/r/starburstdata/presto/' starburstdata/presto %}
 
-这里把 Presto 配置文件和日志都做了持久化。
+建议先拉起一个容器，用 `docker cp` 命令将 Presto 的配置文件、日志和插件目录复制出来，在宿主机上做持久化。
 
 ```bash
+docker run --name presto-tmp -d starburstdata/presto:350-e.18
+docker cp presto-tmp:/usr/lib/presto/etc /home/ubuntu/docker/presto/
+docker cp presto-tmp:/data/presto/var /home/ubuntu/docker/presto/
+docker cp presto-tmp:/usr/lib/presto/plugin /home/ubuntu/docker/presto/
+docker stop presto-tmp
+docker rm presto-tmp
 docker run --name presto \
 	-p 18080:8080 \
 	-v /home/ubuntu/docker/presto/etc:/usr/lib/presto/etc \
 	-v /home/ubuntu/docker/presto/var:/data/presto/var \
+	-v /home/ubuntu/docker/presto/plugin:/usr/lib/presto/plugin \
 	--network=docker-br0 \
-	--restart=no \
 	-d starburstdata/presto:350-e.18
 ```
 
