@@ -106,9 +106,10 @@ Zookeeper 和 Kafka 的网络，还需要配置 Kafka
 <p>Presto 单节点配置（<code>etc/node.properties</code>)：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node.environment=docker</span><br><span class="line">node.data-dir=/data/presto</span><br><span class="line">plugin.dir=/usr/lib/presto/plugin</span><br></pre></td></tr></table></figure>
 <p>在 <code>etc/catalog</code> 下创建配置文件
-<code>kafka.properties</code>，重启容器后生效。查询方法可以参考<a
-target="_blank" rel="noopener" href="https://prestodb.io/docs/current/connector/kafka-tutorial.html">官方文档</a>。</p>
+<code>kafka.properties</code>，重启容器后生效。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">connector.name=kafka</span><br><span class="line">kafka.nodes=kafka:9093</span><br><span class="line">kafka.table-names=testdb.customer</span><br><span class="line">kafka.hide-internal-columns=false</span><br><span class="line">kafka.table-description-dir=/usr/lib/presto/etc/kafka</span><br></pre></td></tr></table></figure>
+<p>使用方法可以参考<a
+target="_blank" rel="noopener" href="https://prestodb.io/docs/current/connector/kafka-tutorial.html">官方文档</a>。</p>
 <h2 id="参考">参考</h2>
 <p><a
 target="_blank" rel="noopener" href="https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html">解决
