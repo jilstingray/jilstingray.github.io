@@ -96,7 +96,7 @@ node.data-dir=/data/presto
 plugin.dir=/usr/lib/presto/plugin
 ```
 
-在 `etc/catalog` 下创建配置文件 `kafka.properties`，重启容器后生效。查询方法可以参考[官方文档](https://prestodb.io/docs/current/connector/kafka-tutorial.html)。
+在 `etc/catalog` 下创建配置文件 `kafka.properties`，重启容器后生效。
 
 ```text
 connector.name=kafka
@@ -105,6 +105,8 @@ kafka.table-names=testdb.customer
 kafka.hide-internal-columns=false
 kafka.table-description-dir=/usr/lib/presto/etc/kafka
 ```
+
+使用方法可以参考[官方文档](https://prestodb.io/docs/current/connector/kafka-tutorial.html)。
 
 ## 参考
 
