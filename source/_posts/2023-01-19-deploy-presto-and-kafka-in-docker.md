@@ -31,11 +31,33 @@ docker run --name presto \
 	-d starburstdata/presto:350-e.18
 ```
 
+修改 `etc` 目录下的配置文件，重启后生效：
+
+### node.properties
+
+```text
+node.environment=docker
+node.data-dir=/data/presto
+plugin.dir=/usr/lib/presto/plugin
+```
+
+### config.properties
+
+```text
+coordinator=true
+node-scheduler.include-coordinator=true
+http-server.http.port=8080
+discovery-server.enabled=true
+discovery.uri=http://localhost:8080
+```
+
+由于没有设置账号密码，使用 JDBC 连接时用户名可以随便填写，密码留空。
+
 ## 安装 Zookeeper + Kafka
 
 在 Docker 上运行 Kafka 有两个问题：
 
-* Kafka 无法脱离 Zookeeper 独立运行。
+* Kafka 无法脱离 Zookeeper 独立运行；
 
 * Kafka 为了避免中间人攻击，会将客户端的请求与 Broker 上报给 Zookeeper 的 hostname 等信息进行比较。
 
@@ -47,40 +69,38 @@ docker run --name presto \
 services:
   zookeeper:
     image: zookeeper:latest
-    container_name: zookeeper
-    ports:
-	  - "2181:2181"
-    expose:
-      - "2181"
-    environment:
-      ZOO_MY_ID: 1
-    networks:
-      docker-br0:
-        ipv4_address: 172.18.1.0
-
+      container_name: zookeeper
+      ports:
+        - "2181:2181"
+      expose:
+    	- "2181"
+      environment:
+        - ZOO_MY_ID=1
+      networks:
+        docker-br0:
+          ipv4_address: 172.18.1.0
   kafka:
-    image: wurstmeister/kafka:latest
-    container_name: kafka
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_MESSAGE_MAX_BYTES: 2000000
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-	  # 发布到 zookeeper 供客户端使用的服务地址，容器网络内可通过容器名称（kafka）访问
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
-	  # kafka 服务监听地址
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-    ports:
-      - "9092:9092"
-    expose:
-      - "9093"
-    depends_on:
-      - zookeeper
-    networks:
-      docker-br0:
-        ipv4_address: 172.18.1.1
-
+      image: wurstmeister/kafka:latest
+      container_name: kafka
+      environment:
+        - KAFKA_BROKER_ID=1
+        - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+        - KAFKA_MESSAGE_MAX_BYTES=2000000
+        - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+		# 发布到 zookeeper 供客户端使用的服务地址，容器网络内可通过容器名称（kafka）访问
+        - KAFKA_ADVERTISED_LISTENERS=INSIDE://kafka:9093,OUTSIDE://localhost:9092
+		# kafka 服务监听地址
+        - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+        - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
+      ports:
+        - "9092:9092"
+      expose:
+        - "9093"
+      depends_on:
+        - zookeeper
+      networks:
+        docker-br0:
+          ipv4_address: 172.18.1.1
 networks:
   docker-br0:
     external: true
@@ -88,15 +108,7 @@ networks:
 
 ## Presto 连接 Kafka
 
-Presto 单节点配置（`etc/node.properties`)：
-
-```text
-node.environment=docker
-node.data-dir=/data/presto
-plugin.dir=/usr/lib/presto/plugin
-```
-
-在 `etc/catalog` 下创建配置文件 `kafka.properties`，重启容器后生效。
+在 `etc/catalog` 创建配置文件 `kafka.properties`，重启容器后生效。
 
 ```text
 connector.name=kafka
