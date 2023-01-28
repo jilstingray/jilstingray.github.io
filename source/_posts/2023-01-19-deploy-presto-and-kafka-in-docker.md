@@ -15,11 +15,11 @@ docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
 
 ## 安装 Presto
 
-Starburst 提供了一个开箱即用的 Presto 镜像，可以直接运行。
+Starburst 提供了一个开箱即用的 Presto 镜像：
 
 {% link 'https://hub.docker.com/r/starburstdata/presto/' starburstdata/presto %}
 
-这里我把 Presto 配置文件和日志都做了持久化。
+这里把 Presto 配置文件和日志都做了持久化。
 
 ```bash
 docker run --name presto \
@@ -88,7 +88,15 @@ networks:
 
 ## Presto 连接 Kafka
 
-在 `etc` 下创建配置文件 `kafka.properties`，重启容器后生效。查询方法可以参考[官方文档](https://prestodb.io/docs/current/connector/kafka-tutorial.html)。
+Presto 单节点配置（`etc/node.properties`)：
+
+```text
+node.environment=docker
+node.data-dir=/data/presto
+plugin.dir=/usr/lib/presto/plugin
+```
+
+在 `etc/catalog` 下创建配置文件 `kafka.properties`，重启容器后生效。查询方法可以参考[官方文档](https://prestodb.io/docs/current/connector/kafka-tutorial.html)。
 
 ```text
 connector.name=kafka
