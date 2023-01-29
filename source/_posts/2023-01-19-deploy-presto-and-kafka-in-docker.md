@@ -15,7 +15,10 @@ docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
 
 ## 安装 Presto
 
-Starburst 提供了一个开箱即用的 Presto 镜像，这个镜像比较旧，缺乏对 ClickHouse 等数据库和一些新语法的支持。
+Docker Hub 上有一些开箱即用的 Presto 镜像，官方推荐的 Ahana 的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺乏对 ClickHouse 等数据库和一些新语法的支持。
+
+{% link 'https://hub.docker.com/r/ahanaio/prestodb-sandbox' 
+ahanaio/prestodb-sandbox %}
 
 {% link 'https://hub.docker.com/r/starburstdata/presto/' starburstdata/presto %}
 
@@ -107,6 +110,8 @@ docker run --name presto \
 ```
 
 由于没有设置账号密码，使用 JDBC 连接时用户名可以随便填写，密码留空。
+
+如果需要命令行客户端，可以在官网直接下载。
 
 ## 安装 Zookeeper + Kafka
 
