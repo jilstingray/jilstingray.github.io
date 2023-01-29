@@ -15,14 +15,83 @@ docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
 
 ## 安装 Presto
 
-Starburst 提供了一个开箱即用的 Presto 镜像：
+Starburst 提供了一个开箱即用的 Presto 镜像，这个镜像比较旧，缺乏对 ClickHouse 等数据库和一些新语法的支持。
 
 {% link 'https://hub.docker.com/r/starburstdata/presto/' starburstdata/presto %}
 
-建议先拉起一个容器，用 `docker cp` 命令将 Presto 的配置文件、日志和插件目录复制出来，在宿主机上做持久化。
+我们也可以自己打包一个新的镜像：
+
+```dockerfile
+FROM openjdk:8-jre
+
+LABEL os="debian"
+LABEL app="presto"
+LABEL version="0.1"
+LABEL maintainer="raincandyame@github"
+
+# Presto version will be passed in at build time
+ARG PRESTO_VERSION
+
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+
+RUN java -version
+
+# Install python
+RUN apt-get update
+RUN apt-get install -y python2.7
+RUN mv /usr/bin/python2.7 /usr/bin/python
+RUN python --version
+
+ENV PRESTO_DIR /usr/lib/presto
+ENV PRESTO_ETC_DIR /usr/lib/presto/etc
+ENV PRESTO_DATA_DIR /data/presto
+
+RUN mkdir -p ${PRESTO_DIR} ${PRESTO_ETC_DIR}/catalog \
+ && curl -s https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
+ | tar --strip 1 -vxzC ${PRESTO_DIR}
+
+WORKDIR ${PRESTO_DIR}
+RUN pwd
+
+# Config node.properties
+RUN echo "node.environment=ci\n\
+node.id=faaaafffffff-ffff-ffff-ffff-ffffffffffff\n\
+node.data-dir=${PRESTO_DATA_DIR}\n"\ > ${PRESTO_ETC_DIR}/node.properties
+
+# Config jvm.config
+RUN echo '-server\n\
+-Xmx1G\n\
+-XX:+UseG1GC\n\
+-XX:G1HeapRegionSize=32M\n\
+-XX:+UseGCOverheadLimit\n\
+-XX:+ExplicitGCInvokesConcurrent\n\
+-XX:+HeapDumpOnOutOfMemoryError\n\
+-XX:+ExitOnOutOfMemoryError\n'\ > ${PRESTO_ETC_DIR}/jvm.config
+
+# Config log.properties
+RUN echo 'coordinator=true\n\
+node-scheduler.include-coordinator=true\n\
+http-server.http.port=8080\n\
+query.max-memory=0.4GB\n\
+query.max-memory-per-node=0.2GB\n\
+discovery-server.enabled=true\n\
+discovery.uri=http://127.0.0.1:8080\n'\ > ${PRESTO_ETC_DIR}/config.properties
+
+# Config log.properties
+RUN echo 'com.facebook.presto=WARN\n'\ > ${PRESTO_ETC_DIR}/log.properties
+
+# Specify the entrypoint to start
+ENTRYPOINT ${PRESTO_DIR}/bin/launcher run
+```
 
 ```bash
-docker run --name presto-tmp -d starburstdata/presto:350-e.18
+docker build --build-arg PRESTO_VERSION=0.278.1 --tag presto:0.1 .
+```
+
+建议将 Presto 的配置文件、日志和插件目录复制出来，在宿主机上做持久化。
+
+```bash
+docker run --name presto-tmp -d presto:0.1
 docker cp presto-tmp:/usr/lib/presto/etc /home/ubuntu/docker/presto/
 docker cp presto-tmp:/data/presto/var /home/ubuntu/docker/presto/
 docker cp presto-tmp:/usr/lib/presto/plugin /home/ubuntu/docker/presto/
@@ -34,27 +103,7 @@ docker run --name presto \
 	-v /home/ubuntu/docker/presto/var:/data/presto/var \
 	-v /home/ubuntu/docker/presto/plugin:/usr/lib/presto/plugin \
 	--network=docker-br0 \
-	-d starburstdata/presto:350-e.18
-```
-
-修改 `etc` 目录下的配置文件，重启后生效：
-
-### node.properties
-
-```text
-node.environment=docker
-node.data-dir=/data/presto
-plugin.dir=/usr/lib/presto/plugin
-```
-
-### config.properties
-
-```text
-coordinator=true
-node-scheduler.include-coordinator=true
-http-server.http.port=8080
-discovery-server.enabled=true
-discovery.uri=http://localhost:8080
+	-d presto:0.1
 ```
 
 由于没有设置账号密码，使用 JDBC 连接时用户名可以随便填写，密码留空。
@@ -127,6 +176,8 @@ kafka.table-description-dir=/usr/lib/presto/etc/kafka
 使用方法可以参考[官方文档](https://prestodb.io/docs/current/connector/kafka-tutorial.html)。
 
 ## 参考
+
+[手把手教你制作一个 Presto 的 Docker 镜像](https://www.jianshu.com/p/bb5181008cd7)
 
 [解决 Docker 容器连接 Kafka 连接失败问题](https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html)
 
