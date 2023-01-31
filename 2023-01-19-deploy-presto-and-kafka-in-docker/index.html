@@ -20,19 +20,26 @@
   <title>在 Docker 上运行 Presto 和 Kafka - raincandy</title>
 
   
-  <meta name="description" content="创建虚拟网桥
-在 Docker
-中，不同网络中的容器无法互相通信。默认情况下，docker run
-创建的容器会连接到 Docker 的默认网桥上，docker-compose
-则会新建一个网桥。为了保证 Presto 和 Kafka
-的容器能够互通，最简单的方法就是让它们处于同一网...">
+    <meta name="description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和 Kafka 的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Docker 上运行 Presto 和 Kafka">
+<meta property="og:url" content="https://github.com/raincandyame/2023-01-19-deploy-presto-and-kafka-in-docker/index.html">
+<meta property="og:site_name" content="raincandy">
+<meta property="og:description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和 Kafka 的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet">
+<meta property="og:locale" content="zh_SC">
+<meta property="article:published_time" content="2023-01-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-31T00:58:16.570Z">
+<meta property="article:author" content="raincandyame">
+<meta name="twitter:card" content="summary">
+  
+  
 
   <!-- feed -->
   
 
   
     
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/raincandyame/css/main.css">
 
   
 
@@ -56,8 +63,8 @@
 
 <header class="header">
 
-<div class="logo-wrap"><a class="title" href="/"><div class="main">raincandy</div></a></div>
-<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/projects/">项目</a><a class="nav-item" href="/about/">关于</a></nav></header>
+<div class="logo-wrap"><a class="title" href="/raincandyame/"><div class="main">raincandy</div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/raincandyame/">文章</a><a class="nav-item" href="/raincandyame/projects/">项目</a><a class="nav-item" href="/raincandyame/about/">关于</a></nav></header>
 
 <div class="widgets">
 
@@ -74,7 +81,7 @@
       
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-01-18T16:00:00.000Z">2023-01-19</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/raincandyame/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/raincandyame/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-01-18T16:00:00.000Z">2023-01-19</time></div></div>
 
 <article class='content md post reveal'>
 <h1 class="article-title"><span>在 Docker 上运行 Presto 和 Kafka</span></h1>
@@ -87,7 +94,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0</span><br></pre></td></tr></table></figure>
 <h2 id="安装-presto">安装 Presto</h2>
 <p>Docker Hub 上有一些开箱即用的 Presto 镜像，官方推荐的 Ahana
-的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺乏对
+的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺少对
 ClickHouse 等数据库和一些新语法的支持。</p>
 <div class="tag-plugin link dis-select"><a class="link-card" title="ahanaio/prestodb-sandbox" href="https://hub.docker.com/r/ahanaio/prestodb-sandbox" target="_blank" rel="external nofollow noopener noreferrer"><div class="left"><span class="title fs14">ahanaio/prestodb-sandbox</span><span class="url fs12">https://hub.docker.com/r/ahanaio/prestodb-sandbox</span></div><div class="right"><div class="lazy img" data-bg="https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/link/8f277b4ee0ecd.svg"></div></div></a></div>
 <div class="tag-plugin link dis-select"><a class="link-card" title="starburstdata/presto" href="https://hub.docker.com/r/starburstdata/presto/" target="_blank" rel="external nofollow noopener noreferrer"><div class="left"><span class="title fs14">starburstdata/presto</span><span class="url fs12">https://hub.docker.com/r/starburstdata/presto/</span></div><div class="right"><div class="lazy img" data-bg="https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/link/8f277b4ee0ecd.svg"></div></div></a></div>
@@ -111,7 +118,7 @@ Zookeeper 的 hostname 等信息进行比较。</p></li>
 Zookeeper 和 Kafka 的网络，还需要配置 Kafka
 的监听地址（<code>KAFKA_ADVERTISED_LISTENERS</code> 和
 <code>KAFKA_LISTENERS</code>）。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yml</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;2181:2181&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">    	<span class="bullet">-</span> <span class="string">&quot;2181&quot;</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">ZOO_MY_ID=1</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.0</span></span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">wurstmeister/kafka:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">kafka</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_BROKER_ID=1</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_MESSAGE_MAX_BYTES=2000000</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT</span></span><br><span class="line">		<span class="comment"># 发布到 zookeeper 供客户端使用的服务地址，容器网络内可通过容器名称（kafka）访问</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ADVERTISED_LISTENERS=INSIDE://kafka:9093,OUTSIDE://localhost:9092</span></span><br><span class="line">		<span class="comment"># kafka 服务监听地址</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9092:9092&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9093&quot;</span></span><br><span class="line">      <span class="attr">depends_on:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">docker-br0:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><figcaption><span>docker-compose.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;2181:2181&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">    	<span class="bullet">-</span> <span class="string">&quot;2181&quot;</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">ZOO_MY_ID=1</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.0</span></span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">wurstmeister/kafka:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">kafka</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_BROKER_ID=1</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_MESSAGE_MAX_BYTES=2000000</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT</span></span><br><span class="line">		<span class="comment"># 发布到 zookeeper 供客户端使用的服务地址，容器网络内可通过容器名称（kafka）访问</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ADVERTISED_LISTENERS=INSIDE://kafka:9093,OUTSIDE://localhost:9092</span></span><br><span class="line">		<span class="comment"># kafka 服务监听地址</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9092:9092&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9093&quot;</span></span><br><span class="line">      <span class="attr">depends_on:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">docker-br0:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <h2 id="presto-连接-kafka">Presto 连接 Kafka</h2>
 <p>在 <code>etc/catalog</code> 创建配置文件
 <code>kafka.properties</code>，重启容器后生效。</p>
@@ -135,7 +142,7 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2021-10-22-sort/">基本排序算法<span class="note">较早</span></a><div class="line"></div><div class="line"></div><a id="more" href="/archives">检索全部文章</a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/raincandyame/2021-10-22-sort/">基本排序算法<span class="note">较早</span></a><div class="line"></div><div class="line"></div><a id="more" href="/raincandyame/archives">检索全部文章</a></section></div>
 
 
 
@@ -148,9 +155,10 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a
 target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="https://raincandyame.github.io/"><span
-class="citation" data-cites="ame">@ame</span></a> 创建，使用 <a
-target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
+<p>本站由 <a href="https://github.com/raincandyame/raincandyame/"><span
+class="citation" data-cites="raincandyame">@raincandyame</span></a>
+创建，使用 <a
+href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
 title="v1.5.1">Stellar</a> 作为主题。</p>
 </div></footer>
 
@@ -269,8 +277,8 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
   // required plugins (only load if needs)
   stellar.plugins = {
     jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
-    sitesjs: '/js/plugins/sites.js',
-    friendsjs: '/js/plugins/friends.js',
+    sitesjs: '/raincandyame/js/plugins/sites.js',
+    friendsjs: '/raincandyame/js/plugins/friends.js',
   };
 
   // optional plugins
@@ -291,7 +299,7 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
 <!-- required -->
 
   
-<script src="/js/main.js" async></script>
+<script src="/raincandyame/js/main.js" async></script>
 
 
 

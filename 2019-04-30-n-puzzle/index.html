@@ -20,19 +20,28 @@
   <title>N 数码问题 - raincandy</title>
 
   
-  <meta name="description" content="问题描述
-N = 24：在一个 5×5 的棋盘上，有 24
-个写有数字（1-24）的棋子以及一个空格（由 0 表示）。与一般的 N
-数码问题不同，棋盘的边缘设置了两组连通点，(0, 2) 与 (4,
-2)（蓝色）上下互通，(2, 0) 与 (4,
-0)（红色）左右互通。从文件读取初始...">
+    <meta name="description" content="问题描述 N &#x3D; 24：在一个 5×5 的棋盘上，有 24 个写有数字（1-24）的棋子以及一个空格（由 0 表示）。与一般的 N 数码问题不同，棋盘的边缘设置了两组连通点，(0, 2) 与 (4, 2)（蓝色）上下互通，(2, 0) 与 (4, 0)（红色）左右互通。从文件读取初始状态和目标状态的二维矩阵，输出空格0的最短路径（用UDLR表示上下左右移动）。 棋盘示意图 状态的定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="N 数码问题">
+<meta property="og:url" content="https://github.com/raincandyame/2019-04-30-n-puzzle/index.html">
+<meta property="og:site_name" content="raincandy">
+<meta property="og:description" content="问题描述 N &#x3D; 24：在一个 5×5 的棋盘上，有 24 个写有数字（1-24）的棋子以及一个空格（由 0 表示）。与一般的 N 数码问题不同，棋盘的边缘设置了两组连通点，(0, 2) 与 (4, 2)（蓝色）上下互通，(2, 0) 与 (4, 0)（红色）左右互通。从文件读取初始状态和目标状态的二维矩阵，输出空格0的最短路径（用UDLR表示上下左右移动）。 棋盘示意图 状态的定义">
+<meta property="og:locale" content="zh_SC">
+<meta property="og:image" content="https://github.com/raincandyame/assets/2019-04-30-n-puzzle/1.jpg">
+<meta property="article:published_time" content="2019-04-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-31T04:25:07.211Z">
+<meta property="article:author" content="raincandyame">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/raincandyame/assets/2019-04-30-n-puzzle/1.jpg">
+  
+  
 
   <!-- feed -->
   
 
   
     
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/raincandyame/css/main.css">
 
   
 
@@ -168,8 +177,8 @@ mjx-container[display="true"] + br {
 
 <header class="header">
 
-<div class="logo-wrap"><a class="title" href="/"><div class="main">raincandy</div></a></div>
-<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/projects/">项目</a><a class="nav-item" href="/about/">关于</a></nav></header>
+<div class="logo-wrap"><a class="title" href="/raincandyame/"><div class="main">raincandy</div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/raincandyame/">文章</a><a class="nav-item" href="/raincandyame/projects/">项目</a><a class="nav-item" href="/raincandyame/about/">关于</a></nav></header>
 
 <div class="widgets">
 
@@ -186,7 +195,7 @@ mjx-container[display="true"] + br {
       
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2019-04-29T16:00:00.000Z">2019-04-30</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/raincandyame/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/raincandyame/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2019-04-29T16:00:00.000Z">2019-04-30</time></div></div>
 
 <article class='content md post reveal'>
 <h1 class="article-title"><span>N 数码问题</span></h1>
@@ -196,7 +205,7 @@ mjx-container[display="true"] + br {
 数码问题不同，棋盘的边缘设置了两组<strong>连通点</strong>，(0, 2) 与 (4,
 2)（蓝色）上下互通，(2, 0) 与 (4,
 0)（红色）左右互通。从文件读取初始状态和目标状态的二维矩阵，输出空格0的最短路径（用UDLR表示上下左右移动）。</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/yozora7/garage@master/n-puzzle/res/1.jpg"></p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="../assets/2019-04-30-n-puzzle/1.jpg" alt="棋盘示意图"></div><div class="image-meta"><span class="image-caption center">棋盘示意图</span></div></div>
 <h2 id="状态的定义">状态的定义</h2>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Status</span> {</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> grid[<span class="number">25</span>];	<span class="comment">// 5*5棋盘</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">char</span> prev;		<span class="comment">// 上一步移动的方向</span></span><br><span class="line">	<span class="keyword">int</span> cost;		<span class="comment">// 路径耗散</span></span><br><span class="line">	<span class="keyword">double</span> f;		<span class="comment">// 优先级=路径耗散+启发式函数</span></span><br><span class="line">	<span class="keyword">int</span> parent;		<span class="comment">// close表中的前一状态</span></span><br><span class="line">	<span class="built_in">Status</span>(<span class="keyword">int</span> b[], <span class="keyword">int</span> goal[] = TYPE_STD, <span class="keyword">char</span> pv = <span class="string">'X'</span>, <span class="keyword">int</span> c = <span class="number">0</span>, <span class="keyword">int</span> p = <span class="number">-1</span>):<span class="built_in">prev</span>(pv), <span class="built_in">cost</span>(c), <span class="built_in">parent</span>(p) {</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++) {</span><br><span class="line">            grid[i] = b[i];</span><br><span class="line">        }</span><br><span class="line">		f = cost + <span class="built_in">h</span>(goal);</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">h</span><span class="params">(<span class="keyword">int</span> goal[] = TYPE_STD)</span></span>;		<span class="comment">// 启发式函数</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>;				<span class="comment">// 交换数字</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> m)</span></span>;						<span class="comment">// 移动空格</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;							<span class="comment">// 打印grid</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">compare</span><span class="params">(Status S)</span></span>;					<span class="comment">// 比较grid</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">is_open</span><span class="params">(list&lt;Status&gt; open)</span></span>;		<span class="comment">// status是否在open表</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">is_close</span><span class="params">(vector&lt;Status&gt; close)</span></span>;	<span class="comment">// status是否在close表</span></span><br><span class="line">};</span><br></pre></td></tr></table></figure>
 <h2 id="启发式函数">启发式函数</h2>
@@ -247,7 +256,7 @@ mjx-container[display="true"] + br {
 两个表，减少了内存占用，也降低了复杂数据结构带来的实现难度。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> actions[] = { <span class="string">'U'</span>, <span class="string">'D'</span>, <span class="string">'L'</span>, <span class="string">'R'</span> };	<span class="comment">// 移动方向</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> opposite[] = { <span class="string">'D'</span>, <span class="string">'U'</span>, <span class="string">'R'</span>, <span class="string">'L'</span> };	<span class="comment">// 反方向</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">1000</span>;</span><br><span class="line"><span class="keyword">int</span> bound = <span class="number">0</span>;		<span class="comment">// IDA*最大搜索深度</span></span><br><span class="line"><span class="keyword">char</span> path_str[INF];	<span class="comment">// IDA*空格移动路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DFS</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">depth_first</span><span class="params">(Status S, <span class="keyword">int</span> goal[], <span class="keyword">int</span> depth, <span class="keyword">char</span> act)</span> </span>{</span><br><span class="line">	<span class="function">Status <span class="title">G</span><span class="params">(goal, goal)</span></span>;</span><br><span class="line">	<span class="comment">// 当前状态==目标状态，返回</span></span><br><span class="line">	<span class="keyword">if</span>(S.<span class="built_in">compare</span>(G)) {</span><br><span class="line">		path_str[depth] = <span class="string">'\0'</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">// 超出限制深度，剪枝</span></span><br><span class="line">	<span class="keyword">if</span> (S.f - S.cost + depth &gt; bound)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="comment">// 搜索</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) {</span><br><span class="line">		<span class="keyword">if</span> (actions[i] == act)</span><br><span class="line">			<span class="keyword">continue</span>;	<span class="comment">// 回到前一方向，剪枝</span></span><br><span class="line">		Status N = S;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (!N.<span class="built_in">move</span>(i))</span><br><span class="line">			<span class="keyword">continue</span>;	<span class="comment">// 跳过非法方向</span></span><br><span class="line">		<span class="comment">// 获取合法方向的后继N</span></span><br><span class="line">		N.prev = actions[i];</span><br><span class="line">		N.cost = S.cost + <span class="number">1</span>;</span><br><span class="line">		N.f = N.cost + N.<span class="built_in">h</span>(goal);</span><br><span class="line">		path_str[depth] = actions[i];</span><br><span class="line">		<span class="comment">// 递归</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">depth_first</span>(N, goal, depth + <span class="number">1</span>, opposite[i]))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// IDA*</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ida_star</span><span class="params">(<span class="keyword">int</span> init[], <span class="keyword">int</span> goal[], vector&lt;<span class="keyword">char</span>&gt; &amp;path)</span> </span>{</span><br><span class="line">	<span class="function">Status <span class="title">S</span><span class="params">(init, goal)</span></span>;	<span class="comment">// 得到初始状态</span></span><br><span class="line">	bound = S.<span class="built_in">h</span>(goal);		<span class="comment">// 获取限制深度</span></span><br><span class="line">	<span class="built_in">memset</span>(path_str, <span class="string">'X'</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">char</span>[INF]));</span><br><span class="line">	<span class="comment">// DFS，搜索失败时增大限制深度</span></span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">depth_first</span>(S, goal, <span class="number">0</span>, <span class="string">'X'</span>))</span><br><span class="line">		bound++;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Search successed.\n"</span>);</span><br><span class="line">	<span class="comment">// 存储最优路径</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; INF &amp;&amp; path_str[i] != <span class="string">'\0'</span>; i++)</span><br><span class="line">		path.<span class="built_in">push_back</span>(path_str[i]);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <h2 id="附录">附录</h2>
-<p>完整的代码在<a target="_blank" rel="noopener" href="https://github.com/yozora7/garage/tree/master/n-puzzle">这里</a>。</p>
+<p>完整的代码在<a href="https://github.com/yozora7/garage/tree/master/n-puzzle">这里</a>。</p>
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a
@@ -257,7 +266,7 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><div class="line"></div><a id="prev" href="/2021-10-22-sort/">基本排序算法<span class="note">较新</span></a><div class="line"></div><a id="more" href="/archives">检索全部文章</a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><div class="line"></div><a id="prev" href="/raincandyame/2021-10-22-sort/">基本排序算法<span class="note">较新</span></a><div class="line"></div><a id="more" href="/raincandyame/archives">检索全部文章</a></section></div>
 
 
 
@@ -270,9 +279,10 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a
 target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="https://raincandyame.github.io/"><span
-class="citation" data-cites="ame">@ame</span></a> 创建，使用 <a
-target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
+<p>本站由 <a href="https://github.com/raincandyame/raincandyame/"><span
+class="citation" data-cites="raincandyame">@raincandyame</span></a>
+创建，使用 <a
+href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
 title="v1.5.1">Stellar</a> 作为主题。</p>
 </div></footer>
 
@@ -391,8 +401,8 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
   // required plugins (only load if needs)
   stellar.plugins = {
     jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
-    sitesjs: '/js/plugins/sites.js',
-    friendsjs: '/js/plugins/friends.js',
+    sitesjs: '/raincandyame/js/plugins/sites.js',
+    friendsjs: '/raincandyame/js/plugins/friends.js',
   };
 
   // optional plugins
@@ -413,7 +423,7 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
 <!-- required -->
 
   
-<script src="/js/main.js" async></script>
+<script src="/raincandyame/js/main.js" async></script>
 
 
 
