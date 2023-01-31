@@ -15,7 +15,7 @@ docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
 
 ## 安装 Presto
 
-Docker Hub 上有一些开箱即用的 Presto 镜像，官方推荐的 Ahana 的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺乏对 ClickHouse 等数据库和一些新语法的支持。
+Docker Hub 上有一些开箱即用的 Presto 镜像，官方推荐的 Ahana 的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺少对 ClickHouse 等数据库和一些新语法的支持。
 
 {% link 'https://hub.docker.com/r/ahanaio/prestodb-sandbox' 
 ahanaio/prestodb-sandbox %}
@@ -124,8 +124,7 @@ docker run --name presto \
 为了让宿主机和 Presto 容器都能正常访问到容器部署的 Kafka，除了指定 Zookeeper 和 Kafka 的网络，还需要配置 Kafka 的监听地址（`KAFKA_ADVERTISED_LISTENERS` 和 `KAFKA_LISTENERS`）。
 
 
-```yaml
-# docker-compose.yml
+```yaml docker-compose.yml
 services:
   zookeeper:
     image: zookeeper:latest

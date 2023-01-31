@@ -13,7 +13,7 @@ article:
   auto_excerpt: 0
 
 open_graph:
-  enable: false
+  enable: true
 
 footer:
   social:
