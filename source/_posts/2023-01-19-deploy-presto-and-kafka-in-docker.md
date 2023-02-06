@@ -24,7 +24,7 @@ ahanaio/prestodb-sandbox %}
 
 我们也可以自己打包一个新的镜像：
 
-```dockerfile
+```dockerfile Dockerfile
 FROM openjdk:8-jre
 
 LABEL os="debian"
