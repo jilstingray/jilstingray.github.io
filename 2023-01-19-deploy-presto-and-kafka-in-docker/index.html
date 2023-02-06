@@ -23,7 +23,7 @@
     <meta name="description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和 Kafka 的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 Docker 上运行 Presto 和 Kafka">
-<meta property="og:url" content="https://github.com/raincandyame/2023-01-19-deploy-presto-and-kafka-in-docker/index.html">
+<meta property="og:url" content="https://raincandyame.github.io/2023-01-19-deploy-presto-and-kafka-in-docker/index.html">
 <meta property="og:site_name" content="raincandy">
 <meta property="og:description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和 Kafka 的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet">
 <meta property="og:locale" content="zh_SC">
@@ -39,7 +39,7 @@
 
   
     
-<link rel="stylesheet" href="/raincandyame/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
   
 
@@ -63,8 +63,8 @@
 
 <header class="header">
 
-<div class="logo-wrap"><a class="title" href="/raincandyame/"><div class="main">raincandy</div></a></div>
-<nav class="menu dis-select"><a class="nav-item active" href="/raincandyame/">文章</a><a class="nav-item" href="/raincandyame/projects/">项目</a><a class="nav-item" href="/raincandyame/about/">关于</a></nav></header>
+<div class="logo-wrap"><a class="title" href="/"><div class="main">raincandy</div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/projects/">项目</a><a class="nav-item" href="/about/">关于</a></nav></header>
 
 <div class="widgets">
 
@@ -81,7 +81,7 @@
       
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/raincandyame/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/raincandyame/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-01-18T16:00:00.000Z">2023-01-19</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-01-18T16:00:00.000Z">2023-01-19</time></div></div>
 
 <article class='content md post reveal'>
 <h1 class="article-title"><span>在 Docker 上运行 Presto 和 Kafka</span></h1>
@@ -142,7 +142,7 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/raincandyame/2021-10-22-sort/">基本排序算法<span class="note">较早</span></a><div class="line"></div><div class="line"></div><a id="more" href="/raincandyame/archives">检索全部文章</a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2021-10-22-sort/">基本排序算法<span class="note">较早</span></a><div class="line"></div><div class="line"></div><a id="more" href="/archives">检索全部文章</a></section></div>
 
 
 
@@ -155,10 +155,10 @@ target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a
 target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="https://github.com/raincandyame/raincandyame/"><span
+<p>本站由 <a href="https://raincandyame.github.io/"><span
 class="citation" data-cites="raincandyame">@raincandyame</span></a>
 创建，使用 <a
-href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
+target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
 title="v1.5.1">Stellar</a> 作为主题。</p>
 </div></footer>
 
@@ -277,8 +277,8 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
   // required plugins (only load if needs)
   stellar.plugins = {
     jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
-    sitesjs: '/raincandyame/js/plugins/sites.js',
-    friendsjs: '/raincandyame/js/plugins/friends.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
   };
 
   // optional plugins
@@ -299,7 +299,7 @@ title="v1.5.1">Stellar</a> 作为主题。</p>
 <!-- required -->
 
   
-<script src="/raincandyame/js/main.js" async></script>
+<script src="/js/main.js" async></script>
 
 
 
