@@ -94,16 +94,20 @@ class NNumberProblem(Problem):
         """Restrict some actions at the border of the 5*5 matrix."""
         if row == 0 and col != 2:
             if [-1, 0] in allowed_actions:
-                allowed_actions.remove([-1, 0]) # 'U' is not allowed.
+                # 'U' is not allowed
+                allowed_actions.remove([-1, 0]) 
         if row == 4 and col != 2:
             if [1, 0] in allowed_actions:
-                allowed_actions.remove([1, 0])  # 'D' is not allowed.
+                # 'D' is not allowed
+                allowed_actions.remove([1, 0])  
         if row != 2 and col == 0:
             if [0, -1] in allowed_actions:
-                allowed_actions.remove([0, -1]) # 'L' is not allowed.
+                # 'L' is not allowed
+                allowed_actions.remove([0, -1])
         if row != 2 and col == 4:
             if [0, 1] in allowed_actions:
-                allowed_actions.remove([0, 1])  # 'R' is not allowed.
+                # 'R' is not allowed.
+                allowed_actions.remove([0, 1])
         return allowed_actions
 
     def result(self, state, action):
@@ -112,7 +116,7 @@ class NNumberProblem(Problem):
         actr, actc = action[0], action[1]
         temp = state.grid[(row + actr) % 5][(col + actc) % 5]
         next_state = copy.deepcopy(state)
-        next_state.grid[(row + actr) % 5][(col + actc) % 5] = 0    # Move '0'.
+        next_state.grid[(row + actr) % 5][(col + actc) % 5] = 0    # Move '0'
         next_state.grid[row][col] = temp
         return next_state
 

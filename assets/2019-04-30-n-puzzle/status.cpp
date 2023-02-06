@@ -37,7 +37,8 @@ void Status::swap(int i, int j) {
 // 移动空格0
 bool Status::move(int m) {
 	int i;
-	for (i = 0; grid[i] != 0; i++);	// 定位'0'的位置
+	// 定位'0'的位置
+	for (i = 0; grid[i] != 0; i++);
 	// 'U' - up
 	if (m == 0) {
 		if (i == 2) {
