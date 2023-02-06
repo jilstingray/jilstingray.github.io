@@ -64,8 +64,10 @@ void get_path(Status S, vector<Status> close, vector<char>& path) {
 // 扩展当前状态
 void expand(list<Status> &open, vector<Status> &close, int goal[], int type) {
 	Status S = open.front();
-	int index = insert_close(S, close);	// 将open的head加入close并得到下标
-	open.pop_front();					// 弹出open队首
+	// 将open的head加入close并得到下标
+	int index = insert_close(S, close);
+	// 弹出open队首
+	open.pop_front();
 	// 尝试S的四个方向的后继状态N
 	for (int i = 0; i < 4; i++) {
 		Status N = S;

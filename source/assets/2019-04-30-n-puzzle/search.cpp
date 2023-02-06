@@ -55,12 +55,14 @@ bool depth_first(Status S, int goal[], int depth, char act, int type) {
 	}
 	// 搜索
 	for (int i = 0; i < 4; i++) {
+		// 回到前一方向，剪枝
 		if (actions[i] == act) {
-			continue;	// 回到前一方向，剪枝
+			continue;
 		}
 		Status N = S;
+		// 跳过非法方向
 		if (!N.move(i)) {
-			continue;	// 跳过非法方向
+			continue;
 		}
 		// 获取合法方向的后继N
 		N.prev = actions[i];

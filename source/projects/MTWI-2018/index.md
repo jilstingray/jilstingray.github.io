@@ -4,7 +4,7 @@ wiki: MTWI-2018
 title: MTWI-2018
 ---
 
-这个项目是还在念书的时候的一个课设，因为手里没有显卡，测试集没有跑完。无奈目前还是没有显卡可用，无限期搁置中。
+这个项目是大学时期的一个课设，因为手里没有显卡，测试集没有跑完。无奈目前还是没有显卡可用，无限期搁置中。
 
 The Python implementation of Connectionist Text Proposal Network (CTPN) targeting at MTWI 2018 Challenge 2.
 
