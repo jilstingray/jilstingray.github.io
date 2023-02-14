@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 在 Docker 上运行 Presto 和 Kafka
+title: 在 Docker 上运行 Presto
 date: 2023-01-19
 mathjax: false
 ---
 
 ## 创建虚拟网桥
 
-在 Docker 中，不同网络中的容器无法互相通信。默认情况下，`docker run` 创建的容器会连接到 Docker 的默认网桥上，`docker-compose` 则会新建一个网桥。为了保证 Presto 和 Kafka 的容器能够互通，最简单的方法就是让它们处于同一网络之下。
+在 Docker 中，不同网络中的容器无法互相通信。默认情况下，`docker run` 创建的容器会连接到 Docker 的默认网桥上，`docker-compose` 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。
 
 ```bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
@@ -15,14 +15,7 @@ docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0
 
 ## 安装 Presto
 
-Docker Hub 上有一些开箱即用的 Presto 镜像，官方推荐的 Ahana 的镜像集成了命令行客户端和一些 catalogs。Starburst 的镜像比较旧，缺少对 ClickHouse 等数据库和一些新语法的支持。
-
-{% link 'https://hub.docker.com/r/ahanaio/prestodb-sandbox' 
-ahanaio/prestodb-sandbox %}
-
-{% link 'https://hub.docker.com/r/starburstdata/presto/' starburstdata/presto %}
-
-我们也可以自己打包一个新的镜像：
+我们可以自己打包一个新的镜像：
 
 ```dockerfile Dockerfile
 FROM openjdk:8-jre
@@ -41,8 +34,8 @@ RUN java -version
 
 # Install python
 RUN apt-get update
-RUN apt-get install -y python2.7
-RUN mv /usr/bin/python2.7 /usr/bin/python
+RUN apt-get install -y python3
+RUN mv /usr/bin/python3 /usr/bin/python
 RUN python --version
 
 ENV PRESTO_DIR /usr/lib/presto
@@ -88,13 +81,13 @@ ENTRYPOINT ${PRESTO_DIR}/bin/launcher run
 ```
 
 ```bash
-docker build --build-arg PRESTO_VERSION=0.278.1 --tag presto:0.1 .
+docker build --build-arg PRESTO_VERSION=0.279 --tag presto:0.279 .
 ```
 
 建议将 Presto 的配置文件、日志和插件目录复制出来，在宿主机上做持久化。
 
 ```bash
-docker run --name presto-tmp -d presto:0.1
+docker run --name presto-tmp -d presto:0.279
 docker cp presto-tmp:/usr/lib/presto/etc /home/ubuntu/docker/presto/
 docker cp presto-tmp:/data/presto/var /home/ubuntu/docker/presto/
 docker cp presto-tmp:/usr/lib/presto/plugin /home/ubuntu/docker/presto/
@@ -106,14 +99,14 @@ docker run --name presto \
 	-v /home/ubuntu/docker/presto/var:/data/presto/var \
 	-v /home/ubuntu/docker/presto/plugin:/usr/lib/presto/plugin \
 	--network=docker-br0 \
-	-d presto:0.1
+	-d presto:0.279
 ```
 
 由于没有设置账号密码，使用 JDBC 连接时用户名可以随便填写，密码留空。
 
 如果需要命令行客户端，可以在官网直接下载。
 
-## 安装 Zookeeper + Kafka
+## 安装数据源（以 Kafka 为例）
 
 在 Docker 上运行 Kafka 有两个问题：
 
