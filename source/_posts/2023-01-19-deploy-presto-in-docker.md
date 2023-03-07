@@ -43,7 +43,7 @@ ENV PRESTO_ETC_DIR /usr/lib/presto/etc
 ENV PRESTO_DATA_DIR /data/presto
 
 RUN mkdir -p ${PRESTO_DIR} ${PRESTO_ETC_DIR}/catalog \
- && curl -s https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
+ && curl -s https://repo.huaweicloud.com/repository/maven/com/facebook/presto/presto-server/${PRESTO_VERSION}/presto-server-${PRESTO_VERSION}.tar.gz \
  | tar --strip 1 -vxzC ${PRESTO_DIR}
 
 WORKDIR ${PRESTO_DIR}
