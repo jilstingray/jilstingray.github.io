@@ -20,15 +20,15 @@
   <title>presto-excel：presto-excel - raincandy</title>
 
   
-    <meta name="description" content="Presto 本地 Excel 文件连接器，目前只支持查询单个工作表。 编译 &amp; 构建 （待补充） 配置 创建配置文件 etc&#x2F;catalog&#x2F;excel.properties： 12connector.name&#x3D;excelexcel.base&#x3D;&#x2F;data&#x2F;exceldb excel.base 为根目录，schema 名称对应第二级目录，table 名称对应 Excel 文件">
+    <meta name="description" content="Presto Excel 连接器，参考了 presto-localcsv 和 presto-google-sheets。 目前支持查询本地&#x2F;SFTP服务器上的 Excel 工作表。 编译 从 GitHub 获取 Presto 源码，将本项目源码复制进去，将模块添加到 pom.xml 中： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 编译 P">
 <meta property="og:type" content="website">
 <meta property="og:title" content="presto-excel">
 <meta property="og:url" content="https://raincandyame.github.io/projects/presto-excel/index.html">
 <meta property="og:site_name" content="raincandy">
-<meta property="og:description" content="Presto 本地 Excel 文件连接器，目前只支持查询单个工作表。 编译 &amp; 构建 （待补充） 配置 创建配置文件 etc&#x2F;catalog&#x2F;excel.properties： 12connector.name&#x3D;excelexcel.base&#x3D;&#x2F;data&#x2F;exceldb excel.base 为根目录，schema 名称对应第二级目录，table 名称对应 Excel 文件">
+<meta property="og:description" content="Presto Excel 连接器，参考了 presto-localcsv 和 presto-google-sheets。 目前支持查询本地&#x2F;SFTP服务器上的 Excel 工作表。 编译 从 GitHub 获取 Presto 源码，将本项目源码复制进去，将模块添加到 pom.xml 中： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 编译 P">
 <meta property="og:locale" content="zh_SC">
-<meta property="article:published_time" content="2023-02-14T02:56:02.516Z">
-<meta property="article:modified_time" content="2023-02-14T02:56:02.516Z">
+<meta property="article:published_time" content="2023-03-07T07:10:58.144Z">
+<meta property="article:modified_time" content="2023-03-07T07:10:58.144Z">
 <meta property="article:author" content="raincandyame">
 <meta name="twitter:card" content="summary">
   
@@ -68,7 +68,7 @@
 
 <div class="widgets">
 
-<div class="widget-wrap single" id="toc"><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-%E6%9E%84%E5%BB%BA"><span class="toc-text">编译 &amp; 构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#todo"><span class="toc-text">TODO</span></a></li></ol></div></div></div>
+<div class="widget-wrap single" id="toc"><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#todo"><span class="toc-text">TODO</span></a></li></ol></div></div></div>
 
 <div class="widget-wrap" id="repo-info"><div class="widget-header cap dis-select"><span class="name">项目仓库</span></div><div class="widget-body fs14"><div class="items"><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel" href="https://github.com/raincandyame/presto-excel" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg><span>GitHub</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/releases" href="https://github.com/raincandyame/presto-excel/releases" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z"></path></svg><span>Releases</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/archive/refs/heads/main.zip" href="https://github.com/raincandyame/presto-excel/archive/refs/heads/main.zip" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg><span>Download</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/issues" href="https://github.com/raincandyame/presto-excel/issues" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path></svg><span>Issues</span></a></div></div></div>
 
@@ -84,28 +84,37 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/projects/">项目</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/projects/presto-excel/index.html">presto-excel</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-02-14T02:56:02.516Z">2023-02-14</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/projects/">项目</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/projects/presto-excel/index.html">presto-excel</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-03-07T07:10:58.144Z">2023-03-07</time></div></div>
 
   <article class='content md wiki reveal'>
   <h1 class="article-title"><span>presto-excel</span></h1>
-  <p>Presto 本地 Excel 文件连接器，目前只支持查询单个工作表。</p>
-<h2 id="编译-构建">编译 &amp; 构建</h2>
-<p><em>（待补充）</em></p>
+  <p>Presto Excel 连接器，参考了 <a
+target="_blank" rel="noopener" href="https://github.com/dongqianwei/presto-localcsv">presto-localcsv</a>
+和 <a
+target="_blank" rel="noopener" href="https://github.com/prestodb/presto/tree/master/presto-google-sheets">presto-google-sheets</a>。</p>
+<p>目前支持查询本地/SFTP服务器上的 Excel 工作表。</p>
+<h2 id="编译">编译</h2>
+<p>从 <a target="_blank" rel="noopener" href="https://github.com/prestodb/presto/">GitHub</a> 获取
+Presto 源码，将本项目源码复制进去，将模块添加到 <code>pom.xml</code>
+中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">module</span>&gt;</span>presto-excel<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>编译 Presto。</p>
 <h2 id="配置">配置</h2>
-<p>创建配置文件 <code>etc/catalog/excel.properties</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">connector.name=excel</span><br><span class="line">excel.base=/data/exceldb</span><br></pre></td></tr></table></figure>
+<p>创建配置文件
+<code>etc/catalog/excel.properties</code>。读取本地文件的配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">connector.name=excel</span><br><span class="line">excel.protocol=file</span><br><span class="line">excel.base=/path/to/directory</span><br></pre></td></tr></table></figure>
 <p><code>excel.base</code> 为根目录，schema 名称对应第二级目录，table
 名称对应 Excel 文件名（不包含后缀）。</p>
+<p>也可以从 SFTP 服务器读取文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.name=excel</span><br><span class="line">excel.protocol=sftp</span><br><span class="line">excel.base=/path/to/directory</span><br><span class="line">excel.host=xxx.xxx.xxx.xxx</span><br><span class="line">excel.port=xxx</span><br><span class="line">excel.username=xxx</span><br><span class="line">excel.password=xxx</span><br></pre></td></tr></table></figure>
 <h2 id="todo">TODO</h2>
 <ul class="task-list">
-<li><p><input type="checkbox" disabled="" />支持早期的 Excel
-格式（*.xls）</p></li>
-<li><p><input type="checkbox" disabled="" />自动转换特殊数据类型 (e.g.
-date, time, datetime)</p></li>
-<li><p><input type="checkbox" disabled="" />支持完整的 Excel 操作（e.g.
-create table, insert, delete, update）</p></li>
-<li><p><input type="checkbox"
-disabled="" />合并为支持多种文件格式的单一连接器</p></li>
+<li><p><input type="checkbox" disabled="" checked="" />支持
+SFTP。</p></li>
+<li><p><input type="checkbox" disabled="" />支持 HDFS、HTTP
+等协议。</p></li>
+<li><p><input type="checkbox" disabled="" />支持 <code>*.xlsx</code>
+以外的更多文件类型。</p></li>
 </ul>
 
   
