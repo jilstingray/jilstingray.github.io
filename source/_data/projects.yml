@@ -1,20 +1,20 @@
 MTWI-2018:
   title: MTWI-2018
   subtitle: MTWI 2018 Challenge 2
-  tags: [GitHub]
+  tags: [Python]
   repo: jilstingray/MTWI-2018
 presto:
   title: presto
   subtitle: A self-maintaining fork of Presto
-  tags: [GitHub]
+  tags: [Java]
   repo: jilstingray/presto
 presto-excel:
   title: presto-excel
   subtitle: Excel Connector for Presto
-  tags: [GitHub]
+  tags: [Java]
   repo: jilstingray/presto-excel
 presto-csv:
   title: presto-csv
   subtitle: CSV Connector for Presto
-  tags: [GitHub]
+  tags: [Java]
   repo: jilstingray/presto-csv
