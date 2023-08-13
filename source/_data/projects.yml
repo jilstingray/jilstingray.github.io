@@ -2,9 +2,19 @@ MTWI-2018:
   title: MTWI-2018
   subtitle: MTWI 2018 Challenge 2
   tags: [GitHub]
-  repo: raincandyame/MTWI-2018
+  repo: jilstingray/MTWI-2018
+presto:
+  title: presto
+  subtitle: A self-maintaining fork of Presto
+  tags: [GitHub]
+  repo: jilstingray/presto
 presto-excel:
   title: presto-excel
-  subtitle: Presto Excel Connector
+  subtitle: Excel Connector for Presto
   tags: [GitHub]
-  repo: raincandyame/presto-excel
+  repo: jilstingray/presto-excel
+presto-csv:
+  title: presto-csv
+  subtitle: CSV Connector for Presto
+  tags: [GitHub]
+  repo: jilstingray/presto-csv

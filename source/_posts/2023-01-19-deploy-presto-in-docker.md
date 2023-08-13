@@ -23,7 +23,7 @@ FROM openjdk:8-jre
 LABEL os="debian"
 LABEL app="presto"
 LABEL version="0.1"
-LABEL maintainer="raincandyame@github"
+LABEL maintainer="yourname@github"
 
 # Presto version will be passed in at build time
 ARG PRESTO_VERSION
@@ -49,12 +49,12 @@ RUN mkdir -p ${PRESTO_DIR} ${PRESTO_ETC_DIR}/catalog \
 WORKDIR ${PRESTO_DIR}
 RUN pwd
 
-# Config node.properties
+# node.properties
 RUN echo "node.environment=ci\n\
 node.id=faaaafffffff-ffff-ffff-ffff-ffffffffffff\n\
 node.data-dir=${PRESTO_DATA_DIR}\n"\ > ${PRESTO_ETC_DIR}/node.properties
 
-# Config jvm.config
+# jvm.config
 RUN echo '-server\n\
 -Xmx1G\n\
 -XX:+UseG1GC\n\
@@ -64,7 +64,7 @@ RUN echo '-server\n\
 -XX:+HeapDumpOnOutOfMemoryError\n\
 -XX:+ExitOnOutOfMemoryError\n'\ > ${PRESTO_ETC_DIR}/jvm.config
 
-# Config log.properties
+# log.properties
 RUN echo 'coordinator=true\n\
 node-scheduler.include-coordinator=true\n\
 http-server.http.port=8080\n\
@@ -73,7 +73,7 @@ query.max-memory-per-node=0.2GB\n\
 discovery-server.enabled=true\n\
 discovery.uri=http://127.0.0.1:8080\n'\ > ${PRESTO_ETC_DIR}/config.properties
 
-# Config log.properties
+# log.properties
 RUN echo 'com.facebook.presto=WARN\n'\ > ${PRESTO_ETC_DIR}/log.properties
 
 # Specify the entrypoint to start
