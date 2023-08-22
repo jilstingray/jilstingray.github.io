@@ -17,19 +17,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
-  <title>presto-excel：presto-excel - raincandy</title>
+  <title>presto-excel：presto-excel - Stingray</title>
 
   
-    <meta name="description" content="Presto Excel 连接器，参考了 presto-localcsv 和 presto-google-sheets。 目前支持查询本地&#x2F;SFTP服务器上的 Excel 工作表。 编译 从 GitHub 获取 Presto 源码，将本项目源码复制进去，将模块添加到 pom.xml 中： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 编译 P">
+    <meta name="description" content="Presto Excel 连接器，目前支持查询本地或 SFTP 服务器上的 .xls、.xlsx 文件的单张 sheet。 编译 从 GitHub 获取 Presto 源码，将本项目复制进去，在根目录的 pom.xml 中添加模块： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 配置 创建配置文件 etc&#x2F;catalog&#x2F;excel.pro">
 <meta property="og:type" content="website">
 <meta property="og:title" content="presto-excel">
-<meta property="og:url" content="https://raincandyame.github.io/projects/presto-excel/index.html">
-<meta property="og:site_name" content="raincandy">
-<meta property="og:description" content="Presto Excel 连接器，参考了 presto-localcsv 和 presto-google-sheets。 目前支持查询本地&#x2F;SFTP服务器上的 Excel 工作表。 编译 从 GitHub 获取 Presto 源码，将本项目源码复制进去，将模块添加到 pom.xml 中： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 编译 P">
+<meta property="og:url" content="https://jilstingray.github.io/projects/presto-excel/index.html">
+<meta property="og:site_name" content="Stingray">
+<meta property="og:description" content="Presto Excel 连接器，目前支持查询本地或 SFTP 服务器上的 .xls、.xlsx 文件的单张 sheet。 编译 从 GitHub 获取 Presto 源码，将本项目复制进去，在根目录的 pom.xml 中添加模块： 1&lt;module&gt;presto-excel&lt;&#x2F;module&gt; 配置 创建配置文件 etc&#x2F;catalog&#x2F;excel.pro">
 <meta property="og:locale" content="zh_SC">
-<meta property="article:published_time" content="2023-03-07T07:10:58.144Z">
-<meta property="article:modified_time" content="2023-03-07T07:10:58.144Z">
-<meta property="article:author" content="raincandyame">
+<meta property="article:published_time" content="2023-05-26T08:43:53.078Z">
+<meta property="article:modified_time" content="2023-03-29T07:38:25.528Z">
+<meta property="article:author" content="jilstingray">
 <meta name="twitter:card" content="summary">
   
   
@@ -63,16 +63,16 @@
 
 <header class="header">
 
-<div class="logo-wrap wiki"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/projects"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有项目</a><a class="title" href="/projects/presto-excel/index.html"><div class="main">presto-excel</div><div class="sub cap">Presto Excel Connector</div></a></div>
+<div class="logo-wrap wiki"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/projects"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有项目</a><a class="title" href="/projects/presto-excel/index.html"><div class="main">presto-excel</div><div class="sub cap">Excel Connector for Presto</div></a></div>
 </header>
 
 <div class="widgets">
 
-<div class="widget-wrap single" id="toc"><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#todo"><span class="toc-text">TODO</span></a></li></ol></div></div></div>
+<div class="widget-wrap single" id="toc"><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98"><span class="toc-text">已知问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#todo"><span class="toc-text">TODO</span></a></li></ol></div></div></div>
 
-<div class="widget-wrap" id="repo-info"><div class="widget-header cap dis-select"><span class="name">项目仓库</span></div><div class="widget-body fs14"><div class="items"><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel" href="https://github.com/raincandyame/presto-excel" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg><span>GitHub</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/releases" href="https://github.com/raincandyame/presto-excel/releases" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z"></path></svg><span>Releases</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/archive/refs/heads/main.zip" href="https://github.com/raincandyame/presto-excel/archive/refs/heads/main.zip" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg><span>Download</span></a><div class="line"></div><a class="item-link" title="https://github.com/raincandyame/presto-excel/issues" href="https://github.com/raincandyame/presto-excel/issues" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path></svg><span>Issues</span></a></div></div></div>
+<div class="widget-wrap" id="repo-info"><div class="widget-header cap dis-select"><span class="name">项目仓库</span></div><div class="widget-body fs14"><div class="items"><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto-excel" href="https://github.com/jilstingray/presto-excel" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg><span>GitHub</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto-excel/releases" href="https://github.com/jilstingray/presto-excel/releases" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z"></path></svg><span>Releases</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto-excel/archive/refs/heads/main.zip" href="https://github.com/jilstingray/presto-excel/archive/refs/heads/main.zip" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg><span>Download</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto-excel/issues" href="https://github.com/jilstingray/presto-excel/issues" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path></svg><span>Issues</span></a></div></div></div>
 
-<div class="widget-wrap" id="related"><div class="widget-header cap dis-select"><span class="name">更多GitHub</span></div><div class="widget-body fs14"><a class="more-item wiki" href="/projects/MTWI-2018/index.html">MTWI-2018<div class="excerpt">undefined</div></a></div></div>
+<div class="widget-wrap" id="related"><div class="widget-header cap dis-select"><span class="name">更多Java</span></div><div class="widget-body fs14"><a class="more-item wiki" href="/projects/presto/index.html">presto<div class="excerpt">undefined</div></a><a class="more-item wiki" href="/projects/presto-csv/index.html">presto-csv<div class="excerpt">undefined</div></a></div></div>
 </div>
 
 
@@ -84,21 +84,17 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">raincandy</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/projects/">项目</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/projects/presto-excel/index.html">presto-excel</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-03-07T07:10:58.144Z">2023-03-07</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">Stingray</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/projects/">项目</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/projects/presto-excel/index.html">presto-excel</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-03-29T07:38:25.528Z">2023-03-29</time></div></div>
 
   <article class='content md wiki reveal'>
   <h1 class="article-title"><span>presto-excel</span></h1>
-  <p>Presto Excel 连接器，参考了 <a
-target="_blank" rel="noopener" href="https://github.com/dongqianwei/presto-localcsv">presto-localcsv</a>
-和 <a
-target="_blank" rel="noopener" href="https://github.com/prestodb/presto/tree/master/presto-google-sheets">presto-google-sheets</a>。</p>
-<p>目前支持查询本地/SFTP服务器上的 Excel 工作表。</p>
+  <p>Presto Excel 连接器，目前支持查询本地或 SFTP 服务器上的
+<code>.xls</code>、<code>.xlsx</code> 文件的单张 sheet。</p>
 <h2 id="编译">编译</h2>
 <p>从 <a target="_blank" rel="noopener" href="https://github.com/prestodb/presto/">GitHub</a> 获取
-Presto 源码，将本项目源码复制进去，将模块添加到 <code>pom.xml</code>
-中：</p>
+Presto 源码，将本项目复制进去，在根目录的 <code>pom.xml</code>
+中添加模块：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">module</span>&gt;</span>presto-excel<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>编译 Presto。</p>
 <h2 id="配置">配置</h2>
 <p>创建配置文件
 <code>etc/catalog/excel.properties</code>。读取本地文件的配置如下：</p>
@@ -107,14 +103,21 @@ Presto 源码，将本项目源码复制进去，将模块添加到 <code>pom.xm
 名称对应 Excel 文件名（不包含后缀）。</p>
 <p>也可以从 SFTP 服务器读取文件：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connector.name=excel</span><br><span class="line">excel.protocol=sftp</span><br><span class="line">excel.base=/path/to/directory</span><br><span class="line">excel.host=xxx.xxx.xxx.xxx</span><br><span class="line">excel.port=xxx</span><br><span class="line">excel.username=xxx</span><br><span class="line">excel.password=xxx</span><br></pre></td></tr></table></figure>
+<p>连接器使用了 <a
+target="_blank" rel="noopener" href="https://github.com/monitorjbl/excel-streaming-reader">Excel
+Streaming Reader</a> 实现超大文件的读取，读取时使用的
+<code>rowCacheSize</code> 和 <code>bufferSize</code>
+可以在配置文件中调整，默认值为 100 和 4096。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">excel.xlsx-row-cache-size=100   # number of rows to keep in memory</span><br><span class="line">excel.xlsx-buffer-size=4096     # buffer size to use when reading InputStream to file</span><br></pre></td></tr></table></figure>
+<h2 id="已知问题">已知问题</h2>
+<p>Presto 不支持大写表名（见 <a
+target="_blank" rel="noopener" href="https://github.com/prestodb/presto/issues/2863">这个
+issue</a>），该连接器也不支持文件名中包含大写字母的文件。</p>
 <h2 id="todo">TODO</h2>
 <ul class="task-list">
-<li><p><input type="checkbox" disabled="" checked="" />支持
-SFTP。</p></li>
+<li><p><input type="checkbox" disabled="" />支持多张工作表。</p></li>
 <li><p><input type="checkbox" disabled="" />支持 HDFS、HTTP
 等协议。</p></li>
-<li><p><input type="checkbox" disabled="" />支持 <code>*.xlsx</code>
-以外的更多文件类型。</p></li>
 </ul>
 
   
@@ -133,8 +136,8 @@ SFTP。</p></li>
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a
 target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="https://raincandyame.github.io/"><span
-class="citation" data-cites="raincandyame">@raincandyame</span></a>
+<p>本站由 <a href="https://jilstingray.github.io/"><span
+class="citation" data-cites="jilstingray">@jilstingray</span></a>
 创建，使用 <a
 target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
 title="v1.5.1">Stellar</a> 作为主题。</p>

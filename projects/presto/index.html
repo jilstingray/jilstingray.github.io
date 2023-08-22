@@ -4,7 +4,7 @@
 <head>
   <meta name="generator" content="Hexo 5.4.0">
   <meta charset="utf-8">
-  <meta name="robots" content="noindex,follow">
+  
 
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
@@ -17,16 +17,18 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
-  <title>归档 - Stingray</title>
+  <title>presto：Presto - Stingray</title>
 
   
-    <meta name="description" content="Time to fix bugs.">
+    <meta name="description" content="自维护 Presto 分支，支持动态数据源加载，引入了一些 Trino 的特性。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="https://jilstingray.github.io/archives/2023/index.html">
+<meta property="og:title" content="Presto">
+<meta property="og:url" content="https://jilstingray.github.io/projects/presto/index.html">
 <meta property="og:site_name" content="Stingray">
-<meta property="og:description" content="Time to fix bugs.">
+<meta property="og:description" content="自维护 Presto 分支，支持动态数据源加载，引入了一些 Trino 的特性。">
 <meta property="og:locale" content="zh_SC">
+<meta property="article:published_time" content="2023-08-22T01:55:10.014Z">
+<meta property="article:modified_time" content="2023-08-22T01:55:10.014Z">
 <meta property="article:author" content="jilstingray">
 <meta name="twitter:card" content="summary">
   
@@ -55,147 +57,51 @@
 
 
   <div class='l_body' id='start'>
-    <aside class='l_left' layout=''>
+    <aside class='l_left' layout='wiki'>
     
 
 
 <header class="header">
 
-<div class="logo-wrap"><a class="title" href="/"><div class="main">Stingray</div></a></div>
-<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/projects/">项目</a><a class="nav-item" href="/about/">关于</a></nav></header>
-
-<div class="widgets">
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2023-01-19-deploy-presto-in-docker/"><div class="cap"><time>2023-08-22</time></div><span class="title">在 Docker 上运行 Presto</span></a><div class="line"></div><a class="more-item" href="/2019-04-30-n-puzzle/"><div class="cap"><time>2023-08-22</time></div><span class="title">N 数码问题</span></a><div class="line"></div><a class="more-item" href="/2021-10-22-sort/"><div class="cap"><time>2023-05-09</time></div><span class="title">基本排序算法</span></a></div></div>
-<div class='widget-wrap' id='markdown'>
-  <div class='widget-header cap dis-select'>
-    <span class='name'>Hello world!</span>
-  </div>
-  <div class='widget-body fs14'>
-    
-      <p>内容建设中……</p>
-
-    
-  </div>
-</div>
-</div>
-<footer class="footer dis-select"><div class="social-wrap"><a class="social" title="GitHub" href="https://github.com/jilstingray" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-github-line ri-lg"></i></a><a class="social" title="Steam" href="https://steamcommunity.com/id/stingray_117/" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-steam-fill ri-lg"></i></a><a class="social" title="Keylol" href="https://keylol.com/suid-1406507" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-discuss-line ri-lg"></i></a></div></footer>
-
-    </aside>
-    <div class='l_main list'>
-      
-  
-
-<header class="header mobile-only">
-
-<div class="logo-wrap"><a class="title" href="/"><div class="main">Stingray</div></a></div>
+<div class="logo-wrap wiki"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/projects"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有项目</a><a class="title" href="/projects/presto/index.html"><div class="main">presto</div><div class="sub cap">A self-maintaining fork of Presto</div></a></div>
 </header>
 
+<div class="widgets">
 
+<div class="widget-wrap single" id="toc"><div class="widget-body fs14"><div class="doc-tree active"></div></div></div>
+
+<div class="widget-wrap" id="repo-info"><div class="widget-header cap dis-select"><span class="name">项目仓库</span></div><div class="widget-body fs14"><div class="items"><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto" href="https://github.com/jilstingray/presto" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg><span>GitHub</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto/releases" href="https://github.com/jilstingray/presto/releases" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z"></path></svg><span>Releases</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto/archive/refs/heads/main.zip" href="https://github.com/jilstingray/presto/archive/refs/heads/main.zip" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg><span>Download</span></a><div class="line"></div><a class="item-link" title="https://github.com/jilstingray/presto/issues" href="https://github.com/jilstingray/presto/issues" target="_blank" rel="external nofollow noopener noreferrer"><svg aria-hidden="true" role="img" class="color-icon-primary" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path></svg><span>Issues</span></a></div></div></div>
+
+<div class="widget-wrap" id="related"><div class="widget-header cap dis-select"><span class="name">更多Java</span></div><div class="widget-body fs14"><a class="more-item wiki" href="/projects/presto-excel/index.html">presto-excel<div class="excerpt">undefined</div></a><a class="more-item wiki" href="/projects/presto-csv/index.html">presto-csv<div class="excerpt">undefined</div></a></div></div>
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
 
       
 
   
-  <div class='nav-wrap'>
-  <nav class='sub post cap'>
-    
-      <a href='/'>近期发布</a>
-    
-    
-    
-    
-      
-        <a class='active' href='/archives'>归档</a>
-      
-    
-  </nav>
-</div>
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">Stingray</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/projects/">项目</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/projects/presto/index.html">presto</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-22T01:55:10.014Z">2023-08-22</time></div></div>
 
-  <div class='post-list'>
-  	
-  	
-  		
-  		
-  			
-  		
-  	
-  		
-  		
-  			
-  		
-  	
-  		
-  		
-  			
-  		
-  	
-  	
-  		<article class='post-card reveal' id='archive'>
-  			<div class='archive-year h4'>2023</div>
-  			
-  				
-  		    
-  				
-  		    
-  				
-  		    
-  				<div>
-            <a class='post fs14' href="/2023-01-19-deploy-presto-in-docker/">
-    					<time>01-19</time>
-    					<span>
-                
-      						在 Docker 上运行 Presto
-      					
-              </span>
-    				</a>
-          </div>
-  			
-  		</article>
-  	
-  		<article class='post-card reveal' id='archive'>
-  			<div class='archive-year h4'>2021</div>
-  			
-  				
-  		    
-  				
-  		    
-  				
-  		    
-  				<div>
-            <a class='post fs14' href="/2021-10-22-sort/">
-    					<time>10-22</time>
-    					<span>
-                
-      						基本排序算法
-      					
-              </span>
-    				</a>
-          </div>
-  			
-  		</article>
-  	
-  		<article class='post-card reveal' id='archive'>
-  			<div class='archive-year h4'>2019</div>
-  			
-  				
-  		    
-  				
-  		    
-  				
-  		    
-  				<div>
-            <a class='post fs14' href="/2019-04-30-n-puzzle/">
-    					<time>04-30</time>
-    					<span>
-                
-      						N 数码问题
-      					
-              </span>
-    				</a>
-          </div>
-  			
-  		</article>
-  	
-  </div>
+  <article class='content md wiki reveal'>
+  <h1 class="article-title"><span>Presto</span></h1>
+  <p>自维护 <a target="_blank" rel="noopener" href="https://prestodb.io/">Presto</a>
+分支，支持动态数据源加载，引入了一些 <a
+target="_blank" rel="noopener" href="https://trino.io/">Trino</a> 的特性。</p>
+
+  
+
+
+  </article>
+  
+<br>
+
+  
+
+
 
 
       
