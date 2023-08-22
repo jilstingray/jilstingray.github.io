@@ -4,19 +4,15 @@ wiki: presto-excel
 title: presto-excel
 ---
 
-Presto Excel 连接器，参考了 [presto-localcsv](https://github.com/dongqianwei/presto-localcsv) 和 [presto-google-sheets](https://github.com/prestodb/presto/tree/master/presto-google-sheets)。
-
-目前支持查询本地/SFTP服务器上的 Excel 工作表。
+Presto Excel 连接器，目前支持查询本地或 SFTP 服务器上的 `.xls`、`.xlsx` 文件的单张 sheet。
 
 ## 编译
 
-从 [GitHub](https://github.com/prestodb/presto/) 获取 Presto 源码，将本项目源码复制进去，将模块添加到 `pom.xml` 中：
+从 [GitHub](https://github.com/prestodb/presto/) 获取 Presto 源码，将本项目复制进去，在根目录的 `pom.xml` 中添加模块：
 
 ```xml
 <module>presto-excel</module>
 ```
-
-编译 Presto。
 
 ## 配置
 
@@ -42,10 +38,20 @@ excel.username=xxx
 excel.password=xxx
 ```
 
+连接器使用了 [Excel Streaming Reader](https://github.com/monitorjbl/excel-streaming-reader) 实现超大文件的读取，读取时使用的 `rowCacheSize` 和 `bufferSize` 可以在配置文件中调整，默认值为
+100 和 4096。
+
+```
+excel.xlsx-row-cache-size=100   # number of rows to keep in memory
+excel.xlsx-buffer-size=4096     # buffer size to use when reading InputStream to file
+```
+
+## 已知问题
+
+Presto 不支持大写表名（见 [这个 issue](https://github.com/prestodb/presto/issues/2863)），该连接器也不支持文件名中包含大写字母的文件。
+
 ## TODO
 
-- [x] 支持 SFTP。
+- [ ] 支持多张工作表。
 
 - [ ] 支持 HDFS、HTTP 等协议。
-
-- [ ] 支持 `*.xlsx` 以外的更多文件类型。
