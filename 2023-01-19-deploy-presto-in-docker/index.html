@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang='zh-SC'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.2">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  <title>在 Docker 上运行 Presto - Stingray</title>
+
+  
+    <meta name="description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Docker 上运行 Presto">
+<meta property="og:url" content="https://jilstingray.github.io/2023-01-19-deploy-presto-in-docker/index.html">
+<meta property="og:site_name" content="Stingray">
+<meta property="og:description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172">
+<meta property="og:locale" content="zh_SC">
+<meta property="article:published_time" content="2023-01-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-11-03T11:00:57.382Z">
+<meta property="article:author" content="jilstingray">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+    
+      <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    
+  
+</head>
+
+<body>
+  
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+
+<header class="header">
+
+<div class="logo-wrap"><a class="title" href="/"><div class="main">Stingray</div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/projects/">项目</a><a class="nav-item" href="/about/">关于</a></nav></header>
+
+<div class="widgets">
+
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%BD%91%E6%A1%A5"><span class="toc-text">创建虚拟网桥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-presto"><span class="toc-text">安装 Presto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%95%B0%E6%8D%AE%E6%BA%90%E4%BB%A5-kafka-%E4%B8%BA%E4%BE%8B"><span class="toc-text">安装数据源（以 Kafka 为例）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#presto-%E8%BF%9E%E6%8E%A5-kafka"><span class="toc-text">Presto 连接 Kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div></div>
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" title="GitHub" href="https://github.com/jilstingray" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-github-line ri-lg"></i></a><a class="social" title="Steam" href="https://steamcommunity.com/id/stingray_117/" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-steam-fill ri-lg"></i></a><a class="social" title="Keylol" href="https://keylol.com/suid-1406507" target="_blank" rel="external nofollow noopener noreferrer"><i class="ri-discuss-line ri-lg"></i></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">Stingray</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-01-18T16:00:00.000Z">2023-01-19</time></div></div>
+
+<article class='content md post reveal'>
+<h1 class="article-title"><span>在 Docker 上运行 Presto</span></h1>
+<h2 id="创建虚拟网桥">创建虚拟网桥</h2>
+<p>在 Docker
+中，不同网络中的容器无法互相通信。默认情况下，<code>docker run</code>
+创建的容器会连接到 Docker 的默认网桥上，<code>docker-compose</code>
+则会新建一个网桥。为了保证 Presto
+和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --driver=bridge --subnet=172.18.0.0/16 docker-br0</span><br></pre></td></tr></table></figure>
+<h2 id="安装-presto">安装 Presto</h2>
+<p>我们可以自己打包一个新的镜像：</p>
+<figure class="highlight dockerfile"><figcaption><span>Dockerfile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jre</span><br><span class="line"></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> os=<span class="string">&quot;debian&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> app=<span class="string">&quot;presto&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> version=<span class="string">&quot;0.1&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">&quot;yourname@github&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Presto version will be passed in at build time</span></span><br><span class="line"><span class="keyword">ARG</span> PRESTO_VERSION</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> sed -i <span class="string">&#x27;s/deb.debian.org/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> java -version</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Install python</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get install -y python3</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mv /usr/bin/python3 /usr/bin/python</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> python --version</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> PRESTO_DIR /usr/lib/presto</span><br><span class="line"><span class="keyword">ENV</span> PRESTO_ETC_DIR /usr/lib/presto/etc</span><br><span class="line"><span class="keyword">ENV</span> PRESTO_DATA_DIR /data/presto</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p <span class="variable">$&#123;PRESTO_DIR&#125;</span> <span class="variable">$&#123;PRESTO_ETC_DIR&#125;</span>/catalog \</span></span><br><span class="line"><span class="bash"> &amp;&amp; curl -s https://repo.huaweicloud.com/repository/maven/com/facebook/presto/presto-server/<span class="variable">$&#123;PRESTO_VERSION&#125;</span>/presto-server-<span class="variable">$&#123;PRESTO_VERSION&#125;</span>.tar.gz \</span></span><br><span class="line"><span class="bash"> | tar --strip 1 -vxzC <span class="variable">$&#123;PRESTO_DIR&#125;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="variable">$&#123;PRESTO_DIR&#125;</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">pwd</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment"># node.properties</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;node.environment=ci\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">node.id=faaaafffffff-ffff-ffff-ffff-ffffffffffff\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">node.data-dir=<span class="variable">$&#123;PRESTO_DATA_DIR&#125;</span>\n&quot;</span>\ &gt; <span class="variable">$&#123;PRESTO_ETC_DIR&#125;</span>/node.properties</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># jvm.config</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;-server\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-Xmx1G\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:+UseG1GC\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:G1HeapRegionSize=32M\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:+UseGCOverheadLimit\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:+ExplicitGCInvokesConcurrent\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:+HeapDumpOnOutOfMemoryError\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">-XX:+ExitOnOutOfMemoryError\n&#x27;</span>\ &gt; <span class="variable">$&#123;PRESTO_ETC_DIR&#125;</span>/jvm.config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># log.properties</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;coordinator=true\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">node-scheduler.include-coordinator=true\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">http-server.http.port=8080\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">query.max-memory=0.4GB\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">query.max-memory-per-node=0.2GB\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">discovery-server.enabled=true\n\</span></span></span><br><span class="line"><span class="string"><span class="bash">discovery.uri=http://127.0.0.1:8080\n&#x27;</span>\ &gt; <span class="variable">$&#123;PRESTO_ETC_DIR&#125;</span>/config.properties</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># log.properties</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;com.facebook.presto=WARN\n&#x27;</span>\ &gt; <span class="variable">$&#123;PRESTO_ETC_DIR&#125;</span>/log.properties</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify the entrypoint to start</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> <span class="variable">$&#123;PRESTO_DIR&#125;</span>/bin/launcher run</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build --build-arg PRESTO_VERSION=0.279 --tag presto:0.279 .</span><br></pre></td></tr></table></figure>
+<p>建议将 Presto
+的配置文件、日志和插件目录复制出来，在宿主机上做持久化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run --name presto-tmp -d presto:0.279</span><br><span class="line">docker cp presto-tmp:/usr/lib/presto/etc /home/ubuntu/docker/presto/</span><br><span class="line">docker cp presto-tmp:/data/presto/var /home/ubuntu/docker/presto/</span><br><span class="line">docker cp presto-tmp:/usr/lib/presto/plugin /home/ubuntu/docker/presto/</span><br><span class="line">docker stop presto-tmp</span><br><span class="line">docker rm presto-tmp</span><br><span class="line">docker run --name presto \</span><br><span class="line">	-p 18080:8080 \</span><br><span class="line">	-v /home/ubuntu/docker/presto/etc:/usr/lib/presto/etc \</span><br><span class="line">	-v /home/ubuntu/docker/presto/var:/data/presto/var \</span><br><span class="line">	-v /home/ubuntu/docker/presto/plugin:/usr/lib/presto/plugin \</span><br><span class="line">	--network=docker-br0 \</span><br><span class="line">	-d presto:0.279</span><br></pre></td></tr></table></figure>
+<p>由于没有设置账号密码，使用 JDBC
+连接时用户名可以随便填写，密码留空。</p>
+<p>如果需要命令行客户端，可以在官网直接下载。</p>
+<h2 id="安装数据源以-kafka-为例">安装数据源（以 Kafka 为例）</h2>
+<p>在 Docker 上运行 Kafka 有两个问题：</p>
+<ul>
+<li><p>Kafka 无法脱离 Zookeeper 独立运行；</p></li>
+<li><p>Kafka 为了避免中间人攻击，会将客户端的请求与 Broker 上报给
+Zookeeper 的 hostname 等信息进行比较。</p></li>
+</ul>
+<p>为了让宿主机和 Presto 容器都能正常访问到容器部署的 Kafka，除了指定
+Zookeeper 和 Kafka 的网络，还需要配置 Kafka
+的监听地址（<code>KAFKA_ADVERTISED_LISTENERS</code> 和
+<code>KAFKA_LISTENERS</code>）。</p>
+<figure class="highlight yaml"><figcaption><span>docker-compose.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">zookeeper:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;2181:2181&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">    	<span class="bullet">-</span> <span class="string">&quot;2181&quot;</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">ZOO_MY_ID=1</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.0</span></span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">wurstmeister/kafka:latest</span></span><br><span class="line">      <span class="attr">container_name:</span> <span class="string">kafka</span></span><br><span class="line">      <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_BROKER_ID=1</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_MESSAGE_MAX_BYTES=2000000</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT</span></span><br><span class="line">		<span class="comment"># 发布到 zookeeper 供客户端使用的服务地址，容器网络内可通过容器名称（kafka）访问</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_ADVERTISED_LISTENERS=INSIDE://kafka:9093,OUTSIDE://localhost:9092</span></span><br><span class="line">		<span class="comment"># kafka 服务监听地址</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9092:9092&quot;</span></span><br><span class="line">      <span class="attr">expose:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;9093&quot;</span></span><br><span class="line">      <span class="attr">depends_on:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">zookeeper</span></span><br><span class="line">      <span class="attr">networks:</span></span><br><span class="line">        <span class="attr">docker-br0:</span></span><br><span class="line">          <span class="attr">ipv4_address:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">docker-br0:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="presto-连接-kafka">Presto 连接 Kafka</h2>
+<p>在 <code>etc/catalog</code> 创建配置文件
+<code>kafka.properties</code>，重启容器后生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">connector.name=kafka</span><br><span class="line">kafka.nodes=kafka:9093</span><br><span class="line">kafka.table-names=testdb.customer</span><br><span class="line">kafka.hide-internal-columns=false</span><br><span class="line">kafka.table-description-dir=/usr/lib/presto/etc/kafka</span><br></pre></td></tr></table></figure>
+<p>使用方法可以参考<a
+target="_blank" rel="noopener" href="https://prestodb.io/docs/current/connector/kafka-tutorial.html">官方文档</a>。</p>
+<h2 id="参考">参考</h2>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bb5181008cd7">手把手教你制作一个
+Presto 的 Docker 镜像</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html">解决
+Docker 容器连接 Kafka 连接失败问题</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/52a505354bbc">使用 Docker 部署
+Kafka 时的网络应该如何配置</a></p>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a
+target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享
+4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2021-10-22-sort/">基本排序算法<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2023-02-03-ignore-ssl-certs/">封装忽略 HTTPS 证书认证的 HttpClient<span class="note">较新</span></a><div class="line"></div><a id="more" href="/archives">检索全部文章</a></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a
+target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="https://jilstingray.github.io/"><span
+class="citation" data-cites="jilstingray">@jilstingray</span></a>
+创建，使用 <a
+target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1"
+title="v1.5.1">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.5.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper/swiper-bundle.min.css","js":"https://unpkg.com/swiper/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
