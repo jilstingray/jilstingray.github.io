@@ -20,15 +20,15 @@
   <title>在 Docker 上运行 Presto - Stingray</title>
 
   
-    <meta name="description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172">
+    <meta name="description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172.18.0.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 Docker 上运行 Presto">
 <meta property="og:url" content="https://jilstingray.github.io/2023-01-19-deploy-presto-in-docker/index.html">
 <meta property="og:site_name" content="Stingray">
-<meta property="og:description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172">
+<meta property="og:description" content="创建虚拟网桥 在 Docker 中，不同网络中的容器无法互相通信。默认情况下，docker run 创建的容器会连接到 Docker 的默认网桥上，docker-compose 则会新建一个网桥。为了保证 Presto 和数据源的容器能够互通，最简单的方法就是让它们处于同一网络之下。 1docker network create --driver&#x3D;bridge --subnet&#x3D;172.18.0.">
 <meta property="og:locale" content="zh_SC">
 <meta property="article:published_time" content="2023-01-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-11-03T11:00:57.382Z">
+<meta property="article:modified_time" content="2023-11-03T11:00:57.000Z">
 <meta property="article:author" content="jilstingray">
 <meta name="twitter:card" content="summary">
   
